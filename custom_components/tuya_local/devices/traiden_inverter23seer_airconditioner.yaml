@@ -1,0 +1,138 @@
+name: Air conditioner
+products:
+  - id: stgbzbctueolecwx
+    manufacturer: Traiden
+    model: Inverter 23 SEER
+entities:
+  - entity: climate
+    dps:
+      - id: 1
+        name: hvac_mode
+        type: boolean
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            constraint: mode
+            conditions:
+              - dps_val: cold
+                value: cool
+              - dps_val: wind
+                value: fan_only
+              - dps_val: wet
+                value: dry
+      - id: 2
+        name: temperature
+        type: integer
+        unit: C
+        range:
+          min: 16
+          max: 32
+      - id: 3
+        name: current_temperature
+        type: integer
+      - id: 4
+        name: mode
+        type: string
+        hidden: true
+      - id: 5
+        name: fan_mode
+        type: integer
+        mapping:
+          - dps_val: 1
+            value: auto
+            constraint: mode
+            conditions:
+              - dps_val: wet
+                invalid: true
+          - dps_val: 2
+            value: turbo
+            constraint: mode
+            conditions:
+              - dps_val: wet
+                invalid: true
+          - dps_val: 3
+            value: low
+            constraint: mode
+            conditions:
+              - dps_val: wet
+                invalid: true
+          - dps_val: 4
+            value: medium
+            constraint: mode
+            conditions:
+              - dps_val: wet
+                invalid: true
+          - dps_val: 5
+            value: high
+            constraint: mode
+            conditions:
+              - dps_val: wet
+                invalid: true
+      - id: 106
+        name: swing_mode
+        type: boolean
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            value: vertical
+  - entity: switch
+    translation_key: sleep
+    dps:
+      - id: 101
+        name: switch
+        type: boolean
+  - entity: light
+    translation_key: display
+    category: config
+    dps:
+      - id: 104
+        name: switch
+        type: boolean
+  - entity: switch
+    name: Eco mode
+    category: config
+    icon: "mdi:leaf"
+    dps:
+      - id: 8
+        name: switch
+        type: boolean
+  - entity: switch
+    name: Clean mode
+    category: config
+    icon: "mdi:broom"
+    dps:
+      - id: 103
+        name: switch
+        type: boolean
+  - entity: binary_sensor
+    name: Fault 1
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 109
+        type: bitfield
+        name: sensor
+        mapping:
+          - dps_val: 0
+            value: false
+          - value: true
+      - id: 109
+        type: bitfield
+        name: fault_code
+  - entity: binary_sensor
+    name: Fault 2
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 110
+        type: bitfield
+        name: sensor
+        mapping:
+          - dps_val: 0
+            value: false
+          - value: true
+      - id: 110
+        type: bitfield
+        name: fault_code
